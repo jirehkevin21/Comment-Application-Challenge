@@ -8,7 +8,7 @@ import { localStorageSync } from 'ngrx-store-localstorage';
 
 import { commentReducer } from './app/store/reducers/comments.reducers';
 import { CommentsEffects } from './app/store/effects/comment.effects';
-
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export function localStorageSyncReducer(reducer: any): any {
   return localStorageSync({ keys: ['comments'], rehydrate: true })(reducer);
@@ -21,5 +21,6 @@ bootstrapApplication(AppComponent, {
     provideStore({ comments: commentReducer }, { metaReducers }),
     provideHttpClient(),
     provideEffects([CommentsEffects]),
+    provideAnimations()
   ],
 }).catch(err => console.error(err));

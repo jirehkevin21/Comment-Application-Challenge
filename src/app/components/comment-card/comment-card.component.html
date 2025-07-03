@@ -10,13 +10,13 @@
     <div class="comment-header">
       <div class="comment-profile">
         <img class="avatar" [src]="resolveAvatar(comment.user.image.png)" alt="avatar" />
-        <span class="username">{{ comment.user.username }} <span *ngIf="comment.user.username === currentUser.username" class="you-tag">YOU</span></span>
+        <span class="username">{{ comment.user.username }} <span *ngIf="comment.user?.username === currentUser?.username" class="you-tag">YOU</span></span>
         <span class="timestamp">{{ timeAgo }}</span>
       </div>
       <div class="comment-actions">
-         <button *ngIf="comment.user.username !== currentUser.username" (click)="onReplyClick()"><i class="fas fa-reply"></i> Reply</button>
-         <button class="delete" *ngIf="comment.user.username === currentUser.username" (click)="delete.emit(comment.id)"><i class="fas fa-trash-alt"></i> Delete</button>
-         <button *ngIf="comment.user.username === currentUser.username" (click)="onEditClick()"><i class="fas fa-edit"></i> Edit</button>
+         <button *ngIf="comment.user?.username !== currentUser?.username" (click)="onReplyClick()"><i class="fas fa-reply"></i> Reply</button>
+         <button class="delete" *ngIf="comment.user?.username === currentUser?.username" (click)="delete.emit(comment.id)"><i class="fas fa-trash-alt"></i> Delete</button>
+         <button *ngIf="comment.user?.username === currentUser?.username" (click)="onEditClick()"><i class="fas fa-edit"></i> Edit</button>
       </div>
     </div>
 

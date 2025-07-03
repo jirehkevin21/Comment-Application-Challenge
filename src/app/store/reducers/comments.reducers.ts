@@ -76,18 +76,58 @@ function deleteCommentRecursive(comments: Comment[], commentId: number): Comment
     }));
 }
 
+function sortCommentsByScoreAndReplies(comments: Comment[]): Comment[] {
+  return comments
+    .slice()
+    .sort((a, b) => b.score - a.score) 
+    .map(comment => ({
+      ...comment,
+      replies: comment.replies
+        ? [...comment.replies].sort((a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          )
+        : []
+    }));
+}
 
+
+
+function sortRepliesByDate(replies: Comment[]): Comment[] {
+  return [...replies]
+    .sort((a, b) => {
+      const aTime = typeof a.createdAt === 'string' ? new Date(a.createdAt).getTime() : a.createdAt;
+      const bTime = typeof b.createdAt === 'string' ? new Date(b.createdAt).getTime() : b.createdAt;
+      return aTime - bTime; 
+    })
+    .map(reply => ({
+      ...reply,
+      replies: sortRepliesByDate(reply.replies ?? []) 
+    }));
+}
+
+function sortByScore(comments: Comment[]): Comment[] {
+  return comments
+    .slice()
+    .sort((a, b) => b.score - a.score);
+}
 
 export const commentReducer = createReducer(
   initialState,
 
-  
-
   on(CommentActions.loadCommentsSuccess, (state, { comments }) => ({
-    ...state,
-    comments: [...comments] 
-  })),
+  ...state,
+  comments: sortCommentsByScoreAndReplies(comments)
+})),
 
+
+ on(CommentActions.addComment, (state, { comment }) => {
+  const updatedComments = [...state.comments, comment];
+  const sortedComments = sortByScore(updatedComments);
+  return {
+    ...state,
+    comments: sortedComments
+  };
+}),
   on(CommentActions.updateCommentScore, (state, { id, score }) => ({
     ...state,
     comments: state.comments.map(c =>
@@ -96,9 +136,9 @@ export const commentReducer = createReducer(
   })),
 
   on(CommentActions.addComment, (state, { comment }) => ({
-    ...state,
-    comments: [...state.comments, comment]
-  })),
+  ...state,
+  comments: sortByScore([...state.comments, comment])
+})),
 
   on(CommentActions.updateComment, (state, { commentId, content }) => ({
   ...state,
@@ -110,18 +150,24 @@ export const commentReducer = createReducer(
   comments: deleteCommentRecursive(state.comments, commentId)
 })),
 
-  on(CommentActions.upvoteComment, (state, { commentId }) => ({
-  ...state,
-  comments: updateScoreRecursively(state.comments, commentId, 1)
-})),
+ on(CommentActions.upvoteComment, (state, { commentId }) => {
+  const updated = updateScoreRecursively(state.comments, commentId, 1);
+  return {
+    ...state,
+    comments: sortByScore(updated)
+  };
+}),
 
-on(CommentActions.downvoteComment, (state, { commentId }) => ({
-  ...state,
-  comments: updateScoreRecursively(state.comments, commentId, -1)
-})),
+on(CommentActions.downvoteComment, (state, { commentId }) => {
+  const updated = updateScoreRecursively(state.comments, commentId, -1);
+  return {
+    ...state,
+    comments: sortByScore(updated)
+  };
+}),
 
   on(CommentActions.addReply, (state, { parentId, reply }) => {
-  console.log('Reducer - adding reply to parentId:', parentId);
+  console.log('ReducerId:', parentId);
   return {
     ...state,
     comments: addReplyToThread(state.comments, parentId, reply)

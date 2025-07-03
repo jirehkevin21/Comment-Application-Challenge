@@ -1,6 +1,6 @@
 <div class="comments-container">
 
-  <ng-container *ngFor="let comment of comments$ | async">
+  <ng-container *ngFor="let comment of comments$ | async;">
   <!-- Top-level comment -->
   <app-comment-card
     [comment]="comment"
