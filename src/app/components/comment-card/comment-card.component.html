@@ -1,0 +1,54 @@
+<div class="comment-card">
+  
+  <div class="score-box">
+    <button (click)="onUpvote()">+</button>
+    <span>{{ comment.score }}</span>
+    <button (click)="onDownvote()">−</button>
+  </div>
+
+  <div class="comment-content">
+    <div class="comment-header">
+      <div class="comment-profile">
+        <img class="avatar" [src]="resolveAvatar(comment.user.image.png)" alt="avatar" />
+        <span class="username">{{ comment.user.username }} <span *ngIf="comment.user.username === currentUser.username" class="you-tag">YOU</span></span>
+        <span class="timestamp">{{ timeAgo }}</span>
+      </div>
+      <div class="comment-actions">
+         <button *ngIf="comment.user.username !== currentUser.username" (click)="onReplyClick()"><i class="fas fa-reply"></i> Reply</button>
+         <button class="delete" *ngIf="comment.user.username === currentUser.username" (click)="delete.emit(comment.id)"><i class="fas fa-trash-alt"></i> Delete</button>
+         <button *ngIf="comment.user.username === currentUser.username" (click)="onEditClick()"><i class="fas fa-edit"></i> Edit</button>
+      </div>
+    </div>
+
+     <div class="comment-text" *ngIf="!isEditing">
+  <span *ngIf="comment.replyingTo" class="replying-to">{{ comment.replyingTo }}</span>
+  {{ comment.content }}
+</div>
+
+<!-- Edit Form -->
+<div class="reply-box" *ngIf="isEditing">
+  <textarea class="styled-textarea" [(ngModel)]="editContent" rows="3"></textarea>
+  <div class="reply-actions">
+  <button (click)="onUpdateClick()">UPDATE</button>
+  </div>
+</div>
+
+      
+   
+    <div class="reply-box" *ngIf="replyingToCommentId === comment.id">
+  <textarea
+    [(ngModel)]="replyContent"
+    placeholder="Add a comment..."
+    rows="3"
+    class="styled-textarea"
+  ></textarea>
+  <div class="reply-actions">
+    <button (click)="onSubmitReply()">SEND</button>
+  </div>
+</div> 
+  </div>
+</div>
+
+
+
+

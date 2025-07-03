@@ -1,0 +1,142 @@
+.comments-container {
+    padding: 0 200px;
+    @media only screen and (max-width: 1024px) {
+    padding: 0 40px; 
+}
+    @media only screen and (max-width: 768px) {
+    padding: 0 20px; 
+}
+}
+
+.add-comment {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 12px;
+  align-items: flex-start;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+  margin-top: 24px;
+align-items: flex-start;
+ @media only screen and (max-width: 768px) {
+position: relative;
+    justify-content: space-between;
+    height: 200px;
+        align-items: flex-end;
+}
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  textarea {
+    flex: 1;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    padding: 10px 12px;
+    font-family: inherit;
+    resize: none;
+    min-height: 80px;
+@media only screen and (max-width: 768px) {
+position: absolute;
+    top: 16px;
+    width: 85%;
+    
+}
+    &:focus {
+      outline: none;
+      border-color: #5357b6;
+    }
+  }
+
+  button {
+    background-color: #5357b6;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    height: 40px;
+
+    &:hover {
+      background-color: #434ab3;
+    }
+  }
+}
+
+.replies-thread {
+  padding-left: 1rem;    
+  border-left: 2px solid #c9c9c9;
+}
+
+.reply {
+  background-color: #f9f9f9;
+}
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+  h3 {
+    font-weight: 400;
+        margin: 10px 0px;
+  }
+}
+
+.modal-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 10px;
+    justify-content: center;
+  .cancel {
+background-color: #e1e1e1;
+border: 1px solid #e1e1e1;
+    padding: 10px 25px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+  }
+  .cancel:hover {
+  background-color: #f4403700;
+  color: rgb(0, 0, 0);
+  border: 1px solid black;
+}
+  .delete {
+  background-color: #f44237;
+  border: 1px solid #f44237;
+  padding: 10px 25px;
+  border-radius: 4px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: opacity 0.3ms ease;
+}
+
+.delete:hover {
+  background-color: #f4403700;
+  color: rgb(0, 0, 0);
+  border: 1px solid black;
+}
+}
